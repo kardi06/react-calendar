@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, {useState} from 'react';
+import {getMonth} from './util.js';
+import CalendarHeader from './components/CalendarHeader.js';
+import Sidebar from './components/Sidebar.js';
+import Month from './components/Month.js';
 function App() {
+  const [currentMonth, setCurrentMonth] = useState(getMonth);
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <h1 className="text-4xl font-bold text-blue-600">Hello, Tailwind CSS in React!</h1>
+      </div>
+      <div style={{ color: 'red', fontSize: '32px' }}>Hello, Inline CSS</div>
+
+      <div className="h-screen flex flex-col">
+        <CalendarHeader/>
+        <div className="flex">
+          <Sidebar/>
+          <Month month={currentMonth}/>
+        </div>
+      </div>
+    </>
   );
 }
 

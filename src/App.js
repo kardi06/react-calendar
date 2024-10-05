@@ -16,7 +16,7 @@ function App() {
     <>
       <div className="h-screen flex flex-col">
         <CalendarHeader/>
-        <div className="flex flex-col">
+        <div className="flex flex-1">
           <Sidebar/>
           <Month month={currentMonth}/>
         </div>

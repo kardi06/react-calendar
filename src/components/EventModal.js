@@ -14,6 +14,7 @@ const labelsClasses = [
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [selectedLabel, setSelectedLabel] = useState(labelsClasses[0]);
   const { setShowEventModal, daySelected } = useContext(GlobalContext);
   return (
     <div className="h-screen w-full fixed top-0 left-0 flex justify-center items-center">
@@ -66,16 +67,23 @@ const labelsClasses = [
               {labelsClasses.map((lblClass, i) => (
                 <span
                   key={i}
+                  onClick={() => {setSelectedLabel(lblClass)}}
                   className={`${lblClass} w-6 h-6 rounded-full flex items-center justify-center cursor-pointer`}
                 >
-                  <span className="material-icons-outlined text-white text-sm">
+                  {selectedLabel === lblClass && <span className="material-icons-outlined text-white text-sm">
                     check
-                  </span>
+                  </span>}
+                  
                 </span>
               ))}
             </div>
           </div>
         </div>
+        <footer className="flex justify-end border-t p-3 mt-5">
+              <button type="submit" className="bg-blue-500 hover:bg-blue-700 px-6 py-2 rounded text-white">
+                Save
+              </button>
+        </footer>
       </form>
     </div>
   );

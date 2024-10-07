@@ -1,24 +1,26 @@
-import React, {useState, useContext, useEffect} from 'react';
-import {getMonth} from './util.js';
-import CalendarHeader from './components/CalendarHeader.js';
-import Sidebar from './components/Sidebar.js';
-import Month from './components/Month.js';
-import GlobalContext from './context/GlobalContext.js';
+import React, { useState, useContext, useEffect } from "react";
+import { getMonth } from "./util.js";
+import CalendarHeader from "./components/CalendarHeader.js";
+import Sidebar from "./components/Sidebar.js";
+import Month from "./components/Month.js";
+import GlobalContext from "./context/GlobalContext.js";
+import EventModal from "./components/EventModal.js";
 function App() {
   const [currentMonth, setCurrentMonth] = useState(getMonth);
-  const {monthIndex} = useContext(GlobalContext);
+  const { monthIndex , showEventModal} = useContext(GlobalContext);
 
   useEffect(() => {
     setCurrentMonth(getMonth(monthIndex));
-  },[monthIndex]);
+  }, [monthIndex]);
 
   return (
     <>
+      {showEventModal && <EventModal/>}
       <div className="h-screen flex flex-col">
-        <CalendarHeader/>
+        <CalendarHeader />
         <div className="flex flex-1">
-          <Sidebar/>
-          <Month month={currentMonth}/>
+          <Sidebar />
+          <Month month={currentMonth} />
         </div>
       </div>
     </>

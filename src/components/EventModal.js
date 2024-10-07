@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
 
 export default function EventModal() {
-//   const labelsClasses = ["indigo", "gray", "green", "blue", "red", "purple"];
-const labelsClasses = [
+  //   const labelsClasses = ["indigo", "gray", "green", "blue", "red", "purple"];
+  const labelsClasses = [
     "bg-indigo-500",
     "bg-gray-500",
     "bg-green-500",
@@ -15,7 +15,25 @@ const labelsClasses = [
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selectedLabel, setSelectedLabel] = useState(labelsClasses[0]);
-  const { setShowEventModal, daySelected } = useContext(GlobalContext);
+  const { setShowEventModal, daySelected, dispatchCalEvent } =
+    useContext(GlobalContext);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const calendarEvent = {
+        title,
+        description,
+        label: selectedLabel,
+        day: daySelected.valueOf(),
+        id: Date.now()
+    }
+    dispatchCalEvent({
+        type: 'push',
+        payload: calendarEvent
+    })
+
+    setShowEventModal(false);
+  };
   return (
     <div className="h-screen w-full fixed top-0 left-0 flex justify-center items-center">
       <form className="bg-white shadow-2xl rounded-lg w-1/4">
@@ -67,22 +85,29 @@ const labelsClasses = [
               {labelsClasses.map((lblClass, i) => (
                 <span
                   key={i}
-                  onClick={() => {setSelectedLabel(lblClass)}}
+                  onClick={() => {
+                    setSelectedLabel(lblClass);
+                  }}
                   className={`${lblClass} w-6 h-6 rounded-full flex items-center justify-center cursor-pointer`}
                 >
-                  {selectedLabel === lblClass && <span className="material-icons-outlined text-white text-sm">
-                    check
-                  </span>}
-                  
+                  {selectedLabel === lblClass && (
+                    <span className="material-icons-outlined text-white text-sm">
+                      check
+                    </span>
+                  )}
                 </span>
               ))}
             </div>
           </div>
         </div>
         <footer className="flex justify-end border-t p-3 mt-5">
-              <button type="submit" className="bg-blue-500 hover:bg-blue-700 px-6 py-2 rounded text-white">
-                Save
-              </button>
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            className="bg-blue-500 hover:bg-blue-700 px-6 py-2 rounded text-white"
+          >
+            Save
+          </button>
         </footer>
       </form>
     </div>

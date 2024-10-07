@@ -1,14 +1,23 @@
 import dayjs from "dayjs";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
 
 export default function Day({ day, rowIdx }) {
-  const { setDaySelected, setShowEventModal } = useContext(GlobalContext);
+  const [dayEvents, setDayEvents] = useState([]);
+
+  const { setDaySelected, setShowEventModal, savedEvents } = useContext(GlobalContext);
+
   const getCurrentDayClass = () => {
     return day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
       ? "bg-blue-600 text-white rounded-full"
       : "";
   };
+
+  useEffect(() => {
+    const events = savedEvents.filter((event) => dayjs(event.day).format("DD-MM-YY") === day.format("DD-MM-YY"));
+    setDayEvents(events);
+  },[savedEvents,day])
+  
   return (
     <div className="border border-gray-200 flex flex-col">
       <header className="flex flex-col items-center">
@@ -26,7 +35,11 @@ export default function Day({ day, rowIdx }) {
           setShowEventModal(true);
         }}
       >
-        {""}
+        {dayEvents.map((event, idx) => (
+          <div className={`${event.label} p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate`} key={idx}>
+            {event.title}
+          </div>
+        ))}
       </div>
     </div>
   );

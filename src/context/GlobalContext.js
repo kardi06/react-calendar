@@ -16,6 +16,7 @@ const GlobalContext = createContext({
     setLabels: () => {},
     labels: [],
     updatedLabel: () => {},
+    filteredEvents: [],
     
 })
 

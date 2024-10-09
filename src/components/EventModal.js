@@ -2,20 +2,22 @@ import React, { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
 
 export default function EventModal() {
-  //   const labelsClasses = ["indigo", "gray", "green", "blue", "red", "purple"];
-  const labelsClasses = [
-    "bg-indigo-500",
-    "bg-gray-500",
-    "bg-green-500",
-    "bg-blue-500",
-    "bg-red-500",
-    "bg-purple-500",
-  ];
+  const labelsClasses = ["indigo", "gray", "green", "blue", "red", "purple"];
+  // const labelsClasses = [
+  //   "bg-indigo-500",
+  //   "bg-gray-500",
+  //   "bg-green-500",
+  //   "bg-blue-500",
+  //   "bg-red-500",
+  //   "bg-purple-500",
+  // ];
 
   const { setShowEventModal, daySelected, dispatchCalEvent, selectedEvents } =
     useContext(GlobalContext);
 
-  const [title, setTitle] = useState(selectedEvents ? selectedEvents.title : "");
+  const [title, setTitle] = useState(
+    selectedEvents ? selectedEvents.title : ""
+  );
   const [description, setDescription] = useState(
     selectedEvents ? selectedEvents.description : ""
   );
@@ -117,7 +119,19 @@ export default function EventModal() {
                   onClick={() => {
                     setSelectedLabel(lblClass);
                   }}
-                  className={`${lblClass} w-6 h-6 rounded-full flex items-center justify-center cursor-pointer`}
+                  className={`${
+                    lblClass === "indigo"
+                      ? "bg-indigo-500"
+                      : lblClass === "gray"
+                      ? "bg-gray-500"
+                      : lblClass === "green"
+                      ? "bg-green-500"
+                      : lblClass === "blue"
+                      ? "bg-blue-500"
+                      : lblClass === "red"
+                      ? "bg-red-500"
+                      : "bg-purple-500"
+                  } w-6 h-6 rounded-full flex items-center justify-center cursor-pointer`}
                 >
                   {selectedLabel === lblClass && (
                     <span className="material-icons-outlined text-white text-sm">

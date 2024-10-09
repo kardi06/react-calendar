@@ -27,6 +27,7 @@ const ContextWrapper = (props) => {
   const [daySelected, setDaySelected] = useState(dayjs());
   const [showEventModal, setShowEventModal] = useState(false);
   const [selectedEvents, setSelectedEvents] = useState(null);
+  const [labels,setLabels] = useState([]);
   const [savedEvents, dispatchCalEvent] = useReducer(saveEventsReducer, [], initEvents);
 
   useEffect(() => {
@@ -34,10 +35,26 @@ const ContextWrapper = (props) => {
   },[savedEvents]);
 
   useEffect(() => {
+    setLabels((prevLabels) => {
+        return [...new Set(savedEvents.map(evt => evt.label))].map((label) =>{
+          const currentLabel = prevLabels.find((lbl) => lbl.label === label);
+          return {
+            label,
+            checked: currentLabel ? currentLabel.checked : true,
+          };
+        });
+    })
+},[savedEvents]);
+
+  useEffect(() => {
     if (smallCalendarMonth !== null) {
       setMonthIndex(smallCalendarMonth);
     }
   }, [smallCalendarMonth]);
+
+  const updatedLabel = (label) => {
+    setLabels(labels.map((lbl)=> lbl.label === label.label ? label : lbl))
+  };
   return (
     <GlobalContext.Provider
       value={{
@@ -52,7 +69,10 @@ const ContextWrapper = (props) => {
         dispatchCalEvent,
         savedEvents,
         selectedEvents,
-        setSelectedEvents
+        setSelectedEvents,
+        setLabels,
+        labels,
+        updatedLabel
       }}
     >
       {props.children}
